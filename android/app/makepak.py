@@ -12,10 +12,8 @@ pakfile.write(struct.Struct('<4s2l').pack(b'PACK', 0, 0))
 
 for root, subfolders, files in os.walk(rootdir):
 	for file in files:
-		entry = {}
 		impfilename = os.path.join(root, file)
-		entry['filename'] = os.path.relpath(impfilename, rootdir).replace('\\','/')
-
+		entry = {'filename': os.path.relpath(impfilename, rootdir).replace('\\', '/')}
 		if entry['filename'].startswith('.git'):
 			continue
 
@@ -35,4 +33,4 @@ for entry in file_entries:
 pakfile.seek(0)
 pakfile.write(struct.Struct('<4s2l').pack(b'PACK', offset, len(file_entries) * 64))
 
-print('Done, {} files packed to {}.'.format(len(file_entries), filename))
+print(f'Done, {len(file_entries)} files packed to {filename}.')
